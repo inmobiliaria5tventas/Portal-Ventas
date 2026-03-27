@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geoportal de ventas Inmobiliaria 5 Tierras</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="brand" style="display: flex; align-items: flex-start; flex-direction: column; gap: 5px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="agroparcelas-5tierras.png" alt="5 Tierras Logo" style="height: 35px; width: auto;">
+                <span>5 TIERRAS</span>
+            </div>
+            <div
+                style="font-size: 11px; color: var(--text); opacity: 0.7; letter-spacing: 0.5px; text-transform: none; font-weight: 400;">
+                Geoportal de Ventas Inmobiliaria
+            </div>
+        </div>
+        <div class="project-selector">
+            <h4 style="margin-bottom: 15px; color: var(--primary);">Nuestros Proyectos</h4>
+            <div class="project-card" onclick="zoomToProject([-36.120, -71.776])"
+                style="display: flex; align-items: center; gap: 10px;">
+                <img src="Logos/El Copihue.png" alt="El Copihue"
+                    style="width: 30px; height: 30px; object-fit: contain;"> El Copihue
+            </div>
+            <div class="project-card" onclick="zoomToProject([-36.385, -71.953])"
+                style="display: flex; align-items: center; gap: 10px;">
+                <img src="Logos/Las Brisas.png" alt="Las Brisas"
+                    style="width: 30px; height: 30px; object-fit: contain;"> Las Brisas
+            </div>
+            <div class="project-card" onclick="zoomToProject([-36.468, -71.842])"
+                style="display: flex; align-items: center; gap: 10px;">
+                <img src="Logos/Los Encinos.png" alt="Los Encinos"
+                    style="width: 30px; height: 30px; object-fit: contain;"> Los Encinos
+            </div>
+            <div class="project-card" onclick="zoomToProject([-36.478, -71.838])"
+                style="display: flex; align-items: center; gap: 10px;">
+                <img src="Logos/Los Naranjos.png" alt="Los Naranjos"
+                    style="width: 30px; height: 30px; object-fit: contain;"> Los Naranjos
+            </div>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inicializar Mapa
+        var map = L.map('map', { zoomControl: false }).setView([-36.3, -71.9], 9);
+        L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], attribution: 'Google'
+        }).addTo(map);
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        var projectIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: "<div class='marker-pin'></div>",
+            iconSize: [30, 42],
+            iconAnchor: [15, 42]
+        });
+
+
+
+        const projects = [
+            {
+                name: "Hacienda El Copihue",
+                subtitle: "Camino Copihue / El Ajial • A 3,5 km de Parral",
+                price: "Desde $33.000.000", sold: "51% vendido", region: "Maule",
+                desc: "Parcelas de 5.000 m2 con portón y caminos iluminados.",
+                pos: [-36.120, -71.776], path: "El_Copihue/app/index.html", logo: "Logos/El Copihue.png"
+            },
+            {
+                name: "Las Brisas",
+                subtitle: "Camino a Trapiche • A 4,5 km de San Carlos",
+                price: "Desde $18.000.000", sold: "36% vendido", region: "Ñuble",
+                desc: "Parcelas a 8 minutos de San Carlos con WiFi.",
+                pos: [-36.385, -71.953], path: "Las Brisas/app/index.html", logo: "Logos/Las Brisas.png"
+            },
+            {
+                name: "Hacienda Los Encinos",
+                subtitle: "Camino a Nahueltoro • A 12 km de San Carlos",
+                price: "Desde $29.000.000", sold: "86% vendido", region: "Ñuble",
+                desc: "Parcelas a 10 min de San Carlos con tendido eléctrico.",
+                pos: [-36.468, -71.842], path: "Los_Encinos/app/index.html", logo: "Logos/Los Encinos.png"
+            },
+            {
+                name: "Los Naranjos",
+                subtitle: "Nahueltoro • A 12 km de San Carlos",
+                price: "Desde $18.000.000", sold: "77% vendido", region: "Ñuble",
+                desc: "Parcelas de agrado con acceso controlado.",
+                pos: [-36.478, -71.838], path: "Los Naranjos/app/index.html", logo: "Logos/Los Naranjos.png"
+            }
+        ];
+
+
+
+
+
+        async function loadAll() {
+            let bounds = L.latLngBounds();
+            const isMobile = window.innerWidth <= 1024;
+            
+            projects.forEach(p => {
+                bounds.extend(p.pos);
+                let customIcon = L.icon({
+                    iconUrl: p.logo,
+                    iconSize: [45, 45],
+                    iconAnchor: [22, 45],
+                    popupAnchor: [0, -40]
+                });
+                
+                // Prioritize Los Encinos with higher z-index
+                const zOffset = p.name.includes("Encinos") ? 1000 : 0;
+                
+                // Create marker at initial position
+                p.marker = L.marker(p.pos, { 
+                    icon: customIcon, 
+                    zIndexOffset: zOffset,
+                    riseOnHover: true 
+                }).addTo(map)
+                .on('click', () => window.location.href = p.path);
+            });
+
+            if (bounds.isValid()) {
+                map.fitBounds(bounds, { padding: isMobile ? [20, 20] : [50, 50] });
+            }
+
+            // Internal function to update positions based on zoom
+            function updateMarkerPositions() {
+                const currentZoom = map.getZoom();
+                // Threshold for 1:50000 approx (Zoom 13)
+                const isFar = currentZoom < 13;
+
+                projects.forEach(p => {
+                    if (p.name.includes("Encinos")) {
+                        // Offset Encinos slightly up-left when far
+                        const targetPos = isFar ? [-36.455, -71.865] : p.pos;
+                        p.marker.setLatLng(targetPos);
+                    }
+                    if (p.name.includes("Naranjos")) {
+                        // Offset Naranjos slightly down-right when far
+                        const targetPos = isFar ? [-36.495, -71.815] : p.pos;
+                        p.marker.setLatLng(targetPos);
+                    }
+                });
+            }
+
+            map.on('zoomend', updateMarkerPositions);
+            updateMarkerPositions(); // Initial call
+        }
+
+        loadAll();
+
+        function updateLabels() {
+            if (map.getZoom() >= 15) {
+                document.getElementById('map').classList.add('show-labels');
+            } else {
+                document.getElementById('map').classList.remove('show-labels');
+            }
+        }
+
+        map.on('zoomend', updateLabels);
+        updateLabels();
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        function zoomToProject(pos) {
+            map.flyTo(pos, 16, { duration: 2 });
+            if (window.innerWidth <= 1024) {
+                toggleSidebar(); // Close sidebar on mobile after selection
+            }
+        }
+
+        // Close sidebar when clicking on map (mobile)
+        map.on('click', () => {
+            if (window.innerWidth <= 1024 && document.getElementById('sidebar').classList.contains('active')) {
+                toggleSidebar();
+            }
+        });
+    </script>
+</body>
+
+</html>
