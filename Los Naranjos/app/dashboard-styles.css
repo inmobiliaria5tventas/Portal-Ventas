@@ -1,0 +1,824 @@
+/* ═══════════════════════════════════════════
+   DASHBOARD PÚBLICO - Hacienda El Copihue
+   Light Premium Theme for Clients
+   ═══════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --d-bg: #f1f5f9;
+    --d-card: #ffffff;
+    --d-text: #1e293b;
+    --d-text-secondary: #64748b;
+    --d-text-muted: #94a3b8;
+    --d-border: #e2e8f0;
+    --d-green: #22c55e;
+    --d-green-bg: #f0fdf4;
+    --d-green-border: #bbf7d0;
+    --d-yellow: #eab308;
+    --d-yellow-bg: #fefce8;
+    --d-yellow-border: #fef08a;
+    --d-red: #ef4444;
+    --d-red-bg: #fef2f2;
+    --d-red-border: #fecaca;
+    --d-blue: #3b82f6;
+    --d-radius: 16px;
+    --d-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --d-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+    --d-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--d-bg);
+    color: var(--d-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+#dashboard-app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Header ── */
+.dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: var(--d-card);
+    border-bottom: 1px solid var(--d-border);
+    box-shadow: var(--d-shadow);
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.dash-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dash-header__logo {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+}
+
+.dash-header__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--d-text);
+}
+
+.dash-header__subtitle {
+    font-size: 12px;
+    color: var(--d-text-secondary);
+    font-weight: 500;
+}
+
+.dash-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dash-header__live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: var(--d-red-bg);
+    color: var(--d-red);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--d-red-border);
+}
+
+.dash-header__live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--d-red);
+    border-radius: 50%;
+    animation: live-pulse 1.5s ease infinite;
+}
+
+@keyframes live-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.dash-header__update {
+    font-size: 12px;
+    color: var(--d-text-muted);
+    font-weight: 500;
+}
+
+/* ── Content Layout ── */
+.dash-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.dash-map-panel {
+    flex: 1;
+    position: relative;
+}
+
+.dash-map {
+    width: 100%;
+    height: 100%;
+}
+
+.dash-side-panel {
+    width: 380px;
+    flex-shrink: 0;
+    background: var(--d-card);
+    border-left: 1px solid var(--d-border);
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ── Stats Cards ── */
+.dash-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.dash-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid;
+}
+
+.dash-stat-card--disponible {
+    background: var(--d-green-bg);
+    border-color: var(--d-green-border);
+}
+
+.dash-stat-card--reservada {
+    background: var(--d-yellow-bg);
+    border-color: var(--d-yellow-border);
+}
+
+.dash-stat-card--vendida {
+    background: var(--d-red-bg);
+    border-color: var(--d-red-border);
+}
+
+.dash-stat-card__icon {
+    font-size: 20px;
+}
+
+.dash-stat-card__count {
+    font-family: 'Outfit', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.dash-stat-card--disponible .dash-stat-card__count {
+    color: var(--d-green);
+}
+
+.dash-stat-card--reservada .dash-stat-card__count {
+    color: var(--d-yellow);
+}
+
+.dash-stat-card--vendida .dash-stat-card__count {
+    color: var(--d-red);
+}
+
+.dash-stat-card__label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--d-text-secondary);
+}
+
+/* ── Progress Bar ── */
+.dash-progress {
+    padding: 16px;
+    background: var(--d-bg);
+    border-radius: 14px;
+}
+
+.dash-progress__label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--d-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.dash-progress__bar {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+}
+
+.dash-progress__fill {
+    height: 100%;
+    transition: width 0.6s ease;
+}
+
+.dash-progress__fill--vendida {
+    background: linear-gradient(90deg, var(--d-red), #f87171);
+}
+
+.dash-progress__fill--reservada {
+    background: linear-gradient(90deg, var(--d-yellow), #facc15);
+}
+
+.dash-progress__text {
+    font-size: 13px;
+    color: var(--d-text-secondary);
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+/* ── Lotes List ── */
+.dash-lotes-section {
+    flex: 1;
+}
+
+.dash-lotes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.dash-lotes-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--d-text);
+}
+
+.dash-lotes-count {
+    background: var(--d-green-bg);
+    color: var(--d-green);
+    border: 1px solid var(--d-green-border);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.dash-lotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dash-lote-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: var(--d-bg);
+    border-radius: 12px;
+    border: 1px solid var(--d-border);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.dash-lote-item:hover {
+    border-color: var(--d-green);
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.12);
+    transform: translateY(-1px);
+}
+
+.dash-lote-item__name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--d-text);
+}
+
+.dash-lote-item__area {
+    font-size: 12px;
+    color: var(--d-text-muted);
+    font-weight: 500;
+}
+
+.dash-lote-item__price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--d-green);
+}
+
+.dash-lote-item__status {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.dash-lote-item__status--disponible {
+    background: var(--d-green-bg);
+    color: var(--d-green);
+}
+
+.dash-lote-item__status--reservada {
+    background: var(--d-yellow-bg);
+    color: var(--d-yellow);
+}
+
+/* ── Contact CTA ── */
+.dash-contact {
+    padding: 20px;
+    background: linear-gradient(135deg, #15803d, #166534);
+    border-radius: 16px;
+    color: white;
+    text-align: center;
+}
+
+.dash-contact__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.dash-contact__text {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-bottom: 14px;
+}
+
+.dash-contact__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: white;
+    color: #15803d;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dash-contact__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Footer ── */
+.dash-footer {
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--d-border);
+}
+
+.dash-footer p {
+    font-size: 12px;
+    color: var(--d-text-muted);
+    font-weight: 600;
+}
+
+.dash-footer__small {
+    font-size: 11px !important;
+    margin-top: 2px;
+    font-weight: 400 !important;
+}
+
+/* ── Map Tooltip (Dashboard) ── */
+.dash-tooltip {
+    background: white !important;
+    color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 8px 12px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — COMPREHENSIVE BREAKPOINTS
+   ═══════════════════════════════════════════ */
+
+/* ── Very Small Phones (≤360px) ── */
+@media (max-width: 360px) {
+    .dash-header {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 12px;
+    }
+
+    .dash-header__logo {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+
+    .dash-header__title {
+        font-size: 14px;
+    }
+
+    .dash-header__subtitle {
+        font-size: 10px;
+    }
+
+    .dash-header__actions {
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .dash-header__live-badge {
+        padding: 4px 10px;
+        font-size: 9px;
+    }
+
+    .dash-header__update {
+        font-size: 10px;
+    }
+
+    .dash-content {
+        flex-direction: column;
+    }
+
+    .dash-map-panel {
+        height: 35vh;
+        flex: none;
+    }
+
+    .dash-side-panel {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--d-border);
+        padding: 14px;
+        gap: 14px;
+    }
+
+    .dash-stats {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .dash-stat-card {
+        padding: 10px 12px;
+        border-radius: 10px;
+    }
+
+    .dash-stat-card__count {
+        font-size: 22px;
+    }
+
+    .dash-stat-card__label {
+        font-size: 9px;
+    }
+
+    .dash-progress {
+        padding: 12px;
+    }
+
+    .dash-progress__label {
+        font-size: 10px;
+    }
+
+    .dash-progress__text {
+        font-size: 11px;
+    }
+
+    .dash-lotes-header h3 {
+        font-size: 12px;
+    }
+
+    .dash-lotes-list {
+        max-height: 200px;
+    }
+
+    .dash-lote-item {
+        padding: 10px 12px;
+    }
+
+    .dash-lote-item__name {
+        font-size: 13px;
+    }
+
+    .dash-lote-item__area {
+        font-size: 10px;
+    }
+
+    .dash-lote-item__price {
+        font-size: 13px;
+    }
+
+    .dash-contact {
+        padding: 16px;
+    }
+
+    .dash-contact__title {
+        font-size: 14px;
+    }
+
+    .dash-contact__text {
+        font-size: 11px;
+    }
+
+    .dash-contact__btn {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+}
+
+/* ── Small Phones (361px — 480px) ── */
+@media (min-width: 361px) and (max-width: 480px) {
+    .dash-header {
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 14px;
+    }
+
+    .dash-header__actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .dash-content {
+        flex-direction: column;
+    }
+
+    .dash-map-panel {
+        height: 38vh;
+        flex: none;
+    }
+
+    .dash-side-panel {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--d-border);
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .dash-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+    }
+
+    .dash-stat-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 4px;
+        padding: 10px 8px;
+    }
+
+    .dash-lotes-list {
+        max-height: 220px;
+    }
+}
+
+/* ── Mid-size (481px — 768px, large phones & small tablets) ── */
+@media (min-width: 481px) and (max-width: 768px) {
+    .dash-content {
+        flex-direction: column;
+    }
+
+    .dash-map-panel {
+        height: 40vh;
+        flex: none;
+    }
+
+    .dash-side-panel {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--d-border);
+    }
+
+    .dash-header {
+        padding: 12px 20px;
+    }
+
+    .dash-lotes-list {
+        max-height: 250px;
+    }
+}
+
+/* ── Tablets (769px — 1024px) ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .dash-side-panel {
+        width: 320px;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .dash-stat-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 4px;
+        padding: 10px 6px;
+    }
+
+    .dash-stat-card__count {
+        font-size: 22px;
+    }
+
+    .dash-lotes-list {
+        max-height: 250px;
+    }
+}
+
+/* ── Large Desktops (1025px — 1440px) ── */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .dash-side-panel {
+        width: 380px;
+    }
+}
+
+/* ── Extra Large Desktops (1441px+) ── */
+@media (min-width: 1441px) {
+    .dash-side-panel {
+        width: 420px;
+        padding: 24px;
+    }
+
+    .dash-stat-card__count {
+        font-size: 30px;
+    }
+
+    .dash-lote-item__name {
+        font-size: 16px;
+    }
+
+    .dash-lote-item__price {
+        font-size: 16px;
+    }
+
+    .dash-header {
+        padding: 16px 40px;
+    }
+
+    .dash-header__title {
+        font-size: 20px;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   LANDSCAPE ORIENTATION
+   ═══════════════════════════════════════════ */
+@media (orientation: landscape) and (max-width: 900px) {
+    .dash-content {
+        flex-direction: row;
+    }
+
+    .dash-map-panel {
+        flex: 1;
+        height: auto;
+    }
+
+    .dash-side-panel {
+        width: 280px;
+        border-left: 1px solid var(--d-border);
+        border-top: none;
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .dash-header {
+        flex-direction: row;
+        padding: 8px 16px;
+    }
+
+    .dash-header__logo {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .dash-header__title {
+        font-size: 14px;
+    }
+
+    .dash-header__subtitle {
+        font-size: 10px;
+    }
+
+    .dash-stats {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .dash-stat-card {
+        padding: 8px 10px;
+        border-radius: 10px;
+        gap: 6px;
+    }
+
+    .dash-stat-card__count {
+        font-size: 20px;
+    }
+
+    .dash-lotes-list {
+        max-height: 140px;
+    }
+
+    .dash-contact {
+        padding: 14px;
+    }
+
+    .dash-contact__title {
+        font-size: 14px;
+    }
+
+    .dash-contact__text {
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
+
+    .dash-contact__btn {
+        padding: 10px 18px;
+        font-size: 12px;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   SAFE AREA INSETS (notch devices)
+   ═══════════════════════════════════════════ */
+@supports (padding: env(safe-area-inset-top)) {
+    .dash-header {
+        padding-top: max(14px, env(safe-area-inset-top));
+        padding-left: max(24px, env(safe-area-inset-left));
+        padding-right: max(24px, env(safe-area-inset-right));
+    }
+
+    .dash-side-panel {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+}
+
+/* ═══════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════ */
+@media print {
+
+    .dash-header__live-badge,
+    .dash-contact__btn {
+        display: none !important;
+    }
+
+    .dash-side-panel {
+        overflow: visible;
+    }
+
+    .dash-lotes-list {
+        max-height: none;
+    }
+}
